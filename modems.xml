@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<modems version="1.0">
+	<!-- Descriptor of default properties -->
+	<options>
+		<!-- Executing actions: enable/disable -->
+		<actions>enable</actions>
+		<!-- Scanning for modems: enable/disable/usb -->
+		<scanning>usb</scanning>
+		<!-- Multiple RIL instance: enable/disable -->
+		<multiple>disable</multiple>
+	</options>
+
+	<!-- Single modem descriptor
+		properties:
+			name - string, modem name
+	-->
+	<modem name="Test Modem #1">
+		<!-- Communication interface description
+			Properties:
+				type - string, type of interface, i.e.: usb, serial, etc..
+		-->
+		<interface type="usb">
+			<!-- Vendor ID -->
+			<vid>0x0123</vid>
+			<!-- Product ID -->
+			<pid>0x4567</pid>
+		</interface>
+
+		<!-- RIL library for current modem, i.e. value of
+				property "rild.libpath"
+			Properties:
+				arch - the name of CPU architecture for which it was built.
+					If "arch" not defined then it will be used for any CPU
+					In case if were defined libraries with "arch" and without,
+					then first will have higher priority.
+			Value: string, path to RIL library
+		-->
+		<lib arch="armv7-a">/path/to/lib</lib>
+		
+		<!-- Command line which can be used for original "rild",
+				i.e value of property "rild.libargs"
+		 -->
+		<cmd_line>-d /dev/ttyACM1 -i rmnet0</cmd_line>
+
+		<!-- Actions which should be done on different steps
+			WARNING: These actions can be used by violator to hack your device
+			Properties:
+				state - string, the name of state in which this action should
+					be executed:
+					pre-start - action will be executed before RIL daemon start
+					error - action will be executed in case of error in RIL
+					post-stop - action will be executed before RIL daemon stop
+		-->
+		<actions>
+			<action state="pre-start"></action>
+			<action state="error"></action>
+			<action state="post-stop"></action>
+		</actions>
+	</modem>
+</modems>
